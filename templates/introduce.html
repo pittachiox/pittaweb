@@ -1,1 +1,22 @@
-check list
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container text-center mt-5">
+    <h2 class="fw-bold text-primary">🌟 ยินดีต้อนรับสู่ To-Do List! 🌟</h2>
+    <p class="lead text-muted">👋 สร้างและจัดการงานของคุณได้ง่ายๆ พร้อมใช้งานแล้ว!</p>
+
+    <div class="card shadow-lg p-4 mt-4 border-0 rounded-4" style="background: #ffebf0;">
+        <h4 class="text-dark">คุณสามารถ:</h4>
+        <ul class="list-unstyled">
+            <li class="my-2">✅ <strong>เพิ่มงานใหม่</strong> ✏️</li>
+            <li class="my-2">🔄 <strong>แก้ไขงานที่มีอยู่</strong> 🛠️</li>
+            <li class="my-2">🗑️ <strong>ลบงานที่ไม่ต้องการ</strong> 🚮</li>
+            <li class="my-2">🏷️ <strong>จัดกลุ่มงานด้วยแท็ก</strong> 🎯</li>
+        </ul>
+    </div>
+
+    <a href="{{ url_for('index') }}" class="btn btn-lg btn-success mt-4 px-4 py-2 rounded-pill">
+        🚀 ไปที่หน้าแรก
+    </a>
+</div>
+{% endblock %}
