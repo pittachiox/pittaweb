@@ -1,7 +1,7 @@
 import flask
 import models
 import forms
-from flask_login import login_required, login_user, logout_user, LoginManager
+from flask_login import login_required, login_user, logout_user, LoginManager, current_user
 from flask import render_template, redirect, url_for
 import acl
 from flask import Response, send_file, abort
@@ -15,13 +15,12 @@ models.init_app(app)
 @app.route("/")
 def index():
     db = models.db
-    notes = db.session.execute(
-        db.select(models.Note).order_by(models.Note.title)
+    tasks = db.session.execute(
+        db.select(models.Task).order_by(models.Task.due_date)
     ).scalars()
-    return flask.render_template(
-        "index.html",
-        notes=notes,
-    )
+    return flask.render_template("index.html", tasks=tasks)
+
+
 
 
 @app.route("/detail")
@@ -94,6 +93,70 @@ def register():
 @login_required
 def introduce():
     return flask.render_template("introduce.html")
+
+@app.route("/tasks/create", methods=["GET", "POST"])
+@login_required
+def create_task():
+    form = forms.TaskForm()
+    if form.validate_on_submit():
+        task = models.Task(
+            title=form.title.data,
+            description=form.description.data,
+            due_date=form.due_date.data,
+            status="Pending",
+            user_id=current_user.id,
+        )
+        db = models.db
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for("index"))
+    return render_template("create_task.html", form=form)
+
+
+@app.route("/tasks/<int:task_id>/edit", methods=["GET", "POST"])
+@login_required
+def update_task(task_id):
+    db = models.db
+    task = models.Task.query.get_or_404(task_id)
+
+    if task.user_id != current_user.id:
+        abort(403)  # ห้ามแก้ของคนอื่น
+
+    form = forms.TaskForm(obj=task)
+    if form.validate_on_submit():
+        task.title = form.title.data
+        task.description = form.description.data
+        task.due_date = form.due_date.data
+        db.session.commit()
+        return redirect(url_for("index"))
+
+    return render_template("update_task.html", form=form, task=task)
+
+@app.route("/tasks/<int:task_id>/complete")
+@login_required
+def mark_complete(task_id):
+    db = models.db
+    task = models.Task.query.get_or_404(task_id)
+
+    if task.user_id != current_user.id:
+        abort(403)  
+
+    task.status = "Completed"
+    db.session.commit()
+    return redirect(url_for("index"))
+
+@app.route("/tasks/<int:task_id>/delete", methods=["POST"])
+@login_required
+def delete_task(task_id):
+    db = models.db
+    task = models.Task.query.get_or_404(task_id)
+
+    if task.user_id != current_user.id:
+        abort(403)  
+
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for("index"))
 
 
 @app.route("/page")
