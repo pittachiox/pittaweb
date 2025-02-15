@@ -1,14 +1,41 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class="row">
-    <div class="col-md-12 text-center">
-        <h1>Kullawipa Rattanapong</h1>
-        <h1>6710110033</h1>
-        <h1>AI Engineering</h1>
-        <h1>pittachioooo</h1>
-        <img class="image"
-            src="https://scontent.fbkk5-7.fna.fbcdn.net/v/t1.6435-9/193505117_1099632057227054_8139471250998066964_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeHwPqi56z6O1fXX9qrGRoFq6rPYLx4cQnzqs9gvHhxCfGbh4twzW7r7GU0ncIxCV_dmnIEurOqGJRGI1q4Q2_Ko&_nc_ohc=9oLVzq_aWwMQ7kNvgFMhg8b&_nc_oc=AdgO4fESfcWWqiBc-dFdWJVDSy3SsBQx2ekcANM6bIe3qosMt4KAEIUe6ZIsAdM9XpUGCIFKz5y97W6ZK-NX6OqQ&_nc_zt=23&_nc_ht=scontent.fbkk5-7.fna&_nc_gid=AL_-KA2YmcwS7d8blOmcPNb&oh=00_AYBxvME8AJEjrrIajy89pZ-9dEIWCUFP5tPdot4V3uD7Nw&oe=67944B1F"
-            width="300" height="auto">
+<div class="container mt-4">
+    <h2 class="text-center text-primary">📋 หน้ารายละเอียด</h2>
+    
+    <form method="POST" action="{{ url_for('update_profile') }}">
+        <div class="mb-3">
+            <label class="form-label"><strong>📛 Username</strong></label>
+            <input type="text" class="form-control" value="{{ current_user.username }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ชื่อจริง</label>
+            <input type="text" name="name" class="form-control" value="{{ current_user.name or '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ชื่อเล่น</label>
+            <input type="text" name="nickname" class="form-control" value="{{ current_user.nickname or '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">คณะ</label>
+            <input type="text" name="faculty" class="form-control" value="{{ current_user.faculty or '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">รหัสนักศึกษา</label>
+            <input type="text" name="student_id" class="form-control" value="{{ current_user.student_id or '' }}">
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">💾 บันทึกข้อมูล</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-3">
+        <a class="btn btn-secondary" href="{{ url_for('index') }}">🔙 กลับหน้าแรก</a>
     </div>
 </div>
 {% endblock %}
