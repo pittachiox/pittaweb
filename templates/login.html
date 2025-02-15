@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% block body %}
-<h3 class="my-2">Loing</h3>
-<form action="" method="POST">
+<h3 class="my-2">Login</h3>
+<form action="{{ url_for('login') }}" method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group my-3">
         {{ form.username.label }}
-        {{ form.username(class_='form-control',value=form_name) }}
+        {{ form.username(class_='form-control') }}
     </div>
     <div class="form-group my-3">
         {{ form.password.label }}
-        {{ form.password(class_='form-control',value=form_name) }}
+        {{ form.password(class_='form-control', type='password') }}
     </div>
     {% if request.args.get('error') %}
     <div>
@@ -17,6 +17,6 @@
     </div>
     {% endif %}
     <button type="submit" class="btn btn-primary">LOGIN</button>
-    <button class="btn btn-primary">REGISTER</button>
+    <a href="{{ url_for('register') }}" class="btn btn-secondary">REGISTER</a>
 </form>
 {% endblock %}
