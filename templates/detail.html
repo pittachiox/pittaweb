@@ -1,41 +1,41 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class="container mt-4">
-    <h2 class="text-center text-primary">📋 หน้ารายละเอียด</h2>
-    
+<div class="container mt-4 p-4 rounded" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
+    <h2 class="text-center text-white p-2 rounded" style="background-color: #ff66b2;">🎀 Your Profile 🎀</h2>
+
     <form method="POST" action="{{ url_for('update_profile') }}">
         <div class="mb-3">
             <label class="form-label"><strong>📛 Username</strong></label>
-            <input type="text" class="form-control" value="{{ current_user.username }}" readonly>
+            <input type="text" class="form-control" value="{{ current_user.username }}" readonly style="background-color: #fff0f5;">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">ชื่อจริง</label>
-            <input type="text" name="name" class="form-control" value="{{ current_user.name or '' }}">
+            <label class="form-label">🌸 Name</label>
+            <input type="text" name="name" class="form-control" value="{{ current_user.name or '' }}" style="background-color: #fff0f5;">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">ชื่อเล่น</label>
-            <input type="text" name="nickname" class="form-control" value="{{ current_user.nickname or '' }}">
+            <label class="form-label">🐰 Nickname</label>
+            <input type="text" name="nickname" class="form-control" value="{{ current_user.nickname or '' }}" style="background-color: #fff0f5;">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">คณะ</label>
-            <input type="text" name="faculty" class="form-control" value="{{ current_user.faculty or '' }}">
+            <label class="form-label">🎓 Faculty</label>
+            <input type="text" name="faculty" class="form-control" value="{{ current_user.faculty or '' }}" style="background-color: #fff0f5;">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">รหัสนักศึกษา</label>
-            <input type="text" name="student_id" class="form-control" value="{{ current_user.student_id or '' }}">
+            <label class="form-label">📖 Student ID</label>
+            <input type="text" name="student_id" class="form-control" value="{{ current_user.student_id or '' }}" style="background-color: #fff0f5;">
         </div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">💾 บันทึกข้อมูล</button>
+            <button type="submit" class="btn btn-success btn-lg" style="background-color: #ff66b2; border: none;">💾 Save 💖</button>
         </div>
     </form>
 
     <div class="text-center mt-3">
-        <a class="btn btn-secondary" href="{{ url_for('index') }}">🔙 กลับหน้าแรก</a>
+        <a class="btn btn-secondary btn-lg" href="{{ url_for('index') }}" style="background-color: #ff99cc; border: none;">🔙 Back 🏡</a>
     </div>
 </div>
 {% endblock %}
