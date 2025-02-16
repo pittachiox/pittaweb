@@ -1,22 +1,33 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="container text-center mt-5">
-    <h2 class="fw-bold text-primary">🌟 ยินดีต้อนรับสู่ To-Do List! 🌟</h2>
-    <p class="lead text-muted">👋 สร้างและจัดการงานของคุณได้ง่ายๆ พร้อมใช้งานแล้ว!</p>
+<div class="container mt-5">
+    <!-- ส่วนหัว -->
+    <div class="text-center p-4 rounded" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
+        <h2 class="fw-bold text-white p-2 rounded" style="background-color: #ff66b2;">
+            🌟 Welcome to Your To-Do List! 🌟
+        </h2>
+        <p class="lead text-dark">
+            👋 Stay organized and manage your tasks with a touch of cuteness!
+        </p>
+    </div>
 
-    <div class="card shadow-lg p-4 mt-4 border-0 rounded-4" style="background: #ffebf0;">
-        <h4 class="text-dark">คุณสามารถ:</h4>
+    <!-- รายละเอียดคุณสมบัติของแอป -->
+    <div class="card shadow-lg p-4 mt-4 border-0 rounded-4" style="background-color: #fff0f5;">
+        <h4 class="text-dark">With this app, you can:</h4>
         <ul class="list-unstyled">
-            <li class="my-2">✅ <strong>เพิ่มงานใหม่</strong> ✏️</li>
-            <li class="my-2">🔄 <strong>แก้ไขงานที่มีอยู่</strong> 🛠️</li>
-            <li class="my-2">🗑️ <strong>ลบงานที่ไม่ต้องการ</strong> 🚮</li>
-            <li class="my-2">🏷️ <strong>จัดกลุ่มงานด้วยแท็ก</strong> 🎯</li>
+            <li class="my-2">✅ <strong>Add new tasks</strong> ✏️</li>
+            <li class="my-2">🔄 <strong>Edit existing tasks</strong> 🛠️</li>
+            <li class="my-2">🗑️ <strong>Delete tasks you no longer need</strong> 🚮</li>
+            <li class="my-2">🏷️ <strong>Organize tasks with tags</strong> 🎯</li>
         </ul>
     </div>
 
-    <a href="{{ url_for('index') }}" class="btn btn-lg btn-success mt-4 px-4 py-2 rounded-pill">
-        🚀 ไปที่หน้าแรก
-    </a>
+    <!-- ปุ่มนำทางไปหน้า Dashboard -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-lg" style="background-color: #ff66b2; color: white; border: none; padding: 0.75rem 2rem; border-radius: 50px;">
+            🚀 Go to Dashboard
+        </a>
+    </div>
 </div>
 {% endblock %}

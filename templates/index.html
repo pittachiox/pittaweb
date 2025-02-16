@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-4" style="background-color: #ffe6f2; border: 2px solid #ff99cc; border-radius: 10px; padding: 20px;">
+    <h2 class="text-center fw-bold text-white p-2 rounded" style="background-color: #ff66b2;">
+        📖To-Do-List📖
+    </h2>
+    
+    <ul class="nav justify-content-center my-3">
+        <li class="nav-item">
+            <a class="btn btn-lg" href="{{ url_for('create_task') }}" style="background-color: #ff66b2; color: white; border: none;">
+                ➕ Add New Task
+            </a>
+        </li>
+        <li class="nav-item mx-2">
+            <a class="btn btn-lg" href="{{ url_for('detail') }}" style="background-color: #ff99cc; color: white; border: none;">
+                🏠 Home
+            </a>
+        </li>
+    </ul>
+    
+    {% for task in tasks %}
+    <div class="card my-3 shadow-sm border-0 rounded-3" style="background-color: #fff0f5;">
+        <div class="card-body">
+            <h4 class="card-title">
+                {% if task.status == 'Completed' %}
+                ✅ <del>{{ task.title }}</del>
+                {% else %}
+                ✏️ {{ task.title }}
+                {% endif %}
+            </h4>
+
+            <p class="card-text text-muted">{{ task.description }}</p>
+            <p><strong>📅 Due Date:</strong> {{ task.due_date or 'N/A' }}</p>
+            <p><strong>🚀 Status:</strong> 
+                {% if task.status == 'Completed' %}
+                <span class="text-success">✅ Completed</span>
+                {% else %}
+                <span class="text-warning">⏳ {{ task.status }}</span>
+                {% endif %}
+            </p>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    {% if current_user.is_authenticated %}
+                        {% if task.status != 'Completed' %}
+                        <a href="{{ url_for('mark_complete', task_id=task.id) }}" class="btn btn-sm" style="background-color: #ff66b2; color: white; border: none;">
+                            ✔ Mark as Done
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('update_task', task_id=task.id) }}" class="btn btn-sm" style="background-color: #ff99cc; color: white; border: none;">
+                            ✏ Edit
+                        </a>
+                        <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-sm" style="background-color: #ff4d94; color: white; border: none;">
+                            🗑 Delete
+                        </a>
+                    {% endif %}
+                </div>
+                <small class="text-muted">Last updated: {{ task.updated_date or 'N/A' }}</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
