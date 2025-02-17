@@ -12,14 +12,10 @@ from acl import init_acl
 # สร้าง instance ของ SQLAlchemy
 bcrypt = Bcrypt()
 
-
-
 class Base(DeclarativeBase):
     pass
 
-
 db = SQLAlchemy(model_class=Base)
-
 
 def init_app(app):
     db.init_app(app)
@@ -29,22 +25,12 @@ def init_app(app):
         db.create_all()
         db.reflect()
 
-
-# ตารางกลางสำหรับความสัมพันธ์ Many-to-Many ระหว่าง Note และ Tag
-note_tag_m2m = db.Table(
-    "note_tag",
-    sa.Column("note_id", sa.ForeignKey("notes.id"), primary_key=True),
-    sa.Column("tag_id", sa.ForeignKey("tags.id"), primary_key=True),
-)
-
-
 # โมเดล Role
 class Role(db.Model):
     __tablename__ = "roles"
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
     name: Mapped[str] = mapped_column(sa.String, nullable=False, default="user")
     created_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
-
 
 # โมเดล User
 class User(db.Model, UserMixin):
@@ -54,10 +40,14 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String)
     status = db.Column(db.String, default="active")
     _password_hash = db.Column(db.String)
+
     created_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
     updated_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
 
     roles: Mapped[list[Role]] = relationship("Role", secondary="user_roles")
+
+    # ✅ เชื่อมกับ Task
+    tasks: Mapped[list["Task"]] = relationship("Task", back_populates="user", cascade="all, delete-orphan")
 
     # Password hash management
     @hybrid_property
@@ -75,13 +65,6 @@ class User(db.Model, UserMixin):
     def has_role(self, role_name):
         return any(role.name == role_name for role in self.roles)
 
-
-
-
-
-    
-
-
 # ตารางกลางสำหรับการเชื่อมโยงผู้ใช้และบทบาท
 user_roles = db.Table(
     "user_roles",
@@ -90,7 +73,6 @@ user_roles = db.Table(
     sa.Column("role_id", sa.ForeignKey("roles.id"), primary_key=True),
 )
 
-
 class Upload(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String)
@@ -98,6 +80,7 @@ class Upload(db.Model):
     created_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
     updated_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
 
+# ✅ โมเดล Task
 class Task(db.Model):
     __tablename__ = "tasks"
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
@@ -109,4 +92,5 @@ class Task(db.Model):
     created_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
     updated_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now(), server_onupdate=func.now())
 
-    user = relationship("User", backref="tasks")
+    # ✅ เชื่อมโยง Task กับ User
+    user: Mapped["User"] = relationship("User", back_populates="tasks")

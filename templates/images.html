@@ -6,10 +6,11 @@
 
     <div class="card p-4 shadow-lg rounded-4" style="background-color: #fff0f5;">
         <h4 class="text-primary">📌 Your Details</h4>
-        <p><strong>📛 Name:</strong> {{ user.name or 'N/A' }}</p>
-        <p><strong>🎭 Nickname:</strong> {{ user.nickname or 'N/A' }}</p>
-        <p><strong>🏫 Faculty:</strong> {{ user.faculty or 'N/A' }}</p>
-        <p><strong>🆔 Student ID:</strong> {{ user.student_id or 'N/A' }}</p>
+        <p><strong>📛 Name:</strong> {{ current_user.name or 'N/A' }}</p>
+        <p><strong>🎭 Nickname:</strong> {{ current_user.nickname or 'N/A' }}</p>
+        <p><strong>🏫 Faculty:</strong> {{ current_user.faculty or 'N/A' }}</p>
+        <p><strong>🆔 Student ID:</strong> {{ current_user.student_id or 'N/A' }}</p>
+        
     </div>
 
     <div class="text-center mt-4">

@@ -1,28 +1,50 @@
 <!-- templates/create_task.html -->
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block content %}
-    <h2>Create a New Task</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        
-        <div>
-            <label for="title">Title:</label>
-            {{ form.title(class="form-control") }}
-        </div>
+{% block body %}
+<div class="container mt-5">
+    <!-- ส่วนหัว -->
+    <div class="text-center p-4 rounded" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
+        <h2 class="fw-bold text-white p-2 rounded" style="background-color: #ff66b2;">
+            🌟 Create a New Task! 🌟
+        </h2>
+        <p class="lead text-dark">
+            👋 Let's organize your tasks and keep track of them efficiently!
+        </p>
+    </div>
 
-        <div>
-            <label for="description">Description:</label>
-            {{ form.description(class="form-control") }}
-        </div>
+    <!-- ฟอร์มการสร้าง Task -->
+    <div class="card shadow-lg p-4 mt-4 border-0 rounded-4" style="background-color: #fff0f5;">
+        <h4 class="text-dark">Please enter the task details:</h4>
+        <form method="POST">
+            {{ form.hidden_tag() }}
 
-        <div>
-            <label for="due_date">Due Date:</label>
-            {{ form.due_date(class="form-control") }}
-        </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                {{ form.title(class="form-control", id="title") }}
+            </div>
 
-        <div>
-            {{ form.submit(class="btn btn-primary") }}
-        </div>
-    </form>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                {{ form.description(class="form-control", id="description") }}
+            </div>
+
+            <div class="mb-3">
+                <label for="due_date" class="form-label">Due Date:</label>
+                {{ form.due_date(class="form-control", id="due_date", type="date") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+
+    <!-- ปุ่มนำทางไปหน้า Dashboard -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-lg" style="background-color: #ff66b2; color: white; border: none; padding: 0.75rem 2rem; border-radius: 50px;">
+            🚀 Go to Dashboard
+        </a>
+    </div>
+</div>
 {% endblock %}

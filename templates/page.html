@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-4 p-4 rounded" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
+    <h2 class="text-center text-white p-2 rounded" style="background-color: #ff66b2;">🎀 Add New Task 🎀</h2>
+
+    <form method="POST" action="{{ url_for('add_task') }}">
+        <div class="mb-3">
+            <label class="form-label">📝 Task Title</label>
+            <input type="text" name="title" class="form-control" placeholder="Enter task title" required style="background-color: #fff0f5;">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">📅 Due Date</label>
+            <input type="date" name="due_date" class="form-control" style="background-color: #fff0f5;">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">📃 Description</label>
+            <textarea name="description" class="form-control" rows="3" placeholder="Enter task details" style="background-color: #fff0f5;"></textarea>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success btn-lg" style="background-color: #ff66b2; border: none;">➕ Add Task 💖</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-3">
+        <a class="btn btn-secondary btn-lg" href="{{ url_for('index') }}" style="background-color: #ff99cc; border: none;">🔙 Back to Tasks 🏡</a>
+    </div>
+</div>
+{% endblock %}

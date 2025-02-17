@@ -6,6 +6,8 @@ from flask_login import login_required, login_user, logout_user, LoginManager, c
 from flask import render_template, redirect, url_for, Response, flash, request, abort
 from models import db, User, Upload, Task, Role
 from werkzeug.utils import secure_filename
+from forms import TaskForm
+
 
 app = flask.Flask(__name__)
 app.config["SECRET_KEY"] = "This is secret key"
@@ -66,17 +68,14 @@ def detail():
 @app.route('/update_profile', methods=['POST'])
 @login_required
 def update_profile():
-    print("Before update:", current_user.__dict__)  
-
     current_user.name = request.form.get('name')
     current_user.nickname = request.form.get('nickname')
     current_user.faculty = request.form.get('faculty')
     current_user.student_id = request.form.get('student_id')
-
     db.session.commit()
-    db.session.expire(current_user)  # ✅ บังคับให้ Flask-Login โหลดค่าล่าสุดจาก DB
 
-    print("After update:", current_user.__dict__)  
+    # โหลดข้อมูลใหม่จากฐานข้อมูล
+    db.session.refresh(current_user)
 
     flash('Profile updated successfully!', 'success')
     return redirect(url_for('images'))
@@ -85,9 +84,15 @@ def update_profile():
 @app.route("/tasks/create", methods=["GET", "POST"])
 @login_required
 def create_task():
-    form = forms.TaskForm()
+    form = TaskForm()  # ใช้ TaskForm() แทน forms.TaskForm()
     if form.validate_on_submit():
-        task = Task(title=form.title.data, description=form.description.data, due_date=form.due_date.data, status="Pending", user_id=current_user.id)
+        task = Task(
+            title=form.title.data,
+            description=form.description.data,
+            due_date=form.due_date.data,
+            status="Pending",
+            user_id=current_user.id
+        )
         db.session.add(task)
         db.session.commit()
         return redirect(url_for("index"))
@@ -125,10 +130,9 @@ def upload():
 @app.route("/images")
 @login_required
 def images():
-    user = User.query.get(current_user.id)  # ✅ บังคับโหลดข้อมูลใหม่
-    print("User data in /images:", user.__dict__)  
-
+    user = User.query.get(current_user.id)  # โหลดข้อมูลใหม่จากฐานข้อมูล
     return render_template("images.html", user=user)
+
 
 
 @app.route("/upload/<int:file_id>")
@@ -139,4 +143,5 @@ def get_uploaded_image(file_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 

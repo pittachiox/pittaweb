@@ -31,6 +31,11 @@ class RegisterForm(BaseUserForm):
         "Name", [validators.DataRequired(), validators.Length(min=6)]
     )
 
+class TaskForm(FlaskForm):
+    title = fields.StringField("Task Title", validators=[validators.DataRequired()])
+    description = fields.TextAreaField("Task Description")
+    due_date = fields.DateField("Due Date", format='%Y-%m-%d')
+    submit = fields.SubmitField("Add Task")
 
 
 
