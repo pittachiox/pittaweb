@@ -141,7 +141,40 @@ def get_uploaded_image(file_id):
     file_ = Upload.query.get_or_404(file_id)
     return Response(file_.data, headers={"Content-Disposition": f'inline;filename="{file_.filename}"', "Content-Type": "application/octet-stream"})
 
+
+
+@app.route("/tasks/<int:task_id>/complete", methods=["POST"])
+@login_required
+def mark_complete(task_id):
+    task = Task.query.get_or_404(task_id)
+    if task.user_id != current_user.id:
+        abort(403)  # ป้องกันไม่ให้ผู้ใช้คนอื่นแก้ไข task ของคนอื่น
+    task.status = "Completed"
+    db.session.commit()
+    flash("Task marked as completed!", "success")
+    return redirect(url_for("index"))
+
+
+@app.route("/tasks/<int:task_id>/update", methods=["GET", "POST"])
+@login_required
+def update_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    if task.user_id != current_user.id:
+        abort(403)  # ป้องกันผู้ใช้ที่ไม่ใช่เจ้าของ task
+
+    form = TaskForm(obj=task)  # โหลดข้อมูล task ลงใน form
+    if form.validate_on_submit():
+        task.title = form.title.data
+        task.description = form.description.data
+        task.due_date = form.due_date.data
+        db.session.commit()
+        flash("Task updated successfully!", "success")
+        return redirect(url_for("index"))
+    
+    return render_template("create_task.html", form=form, is_update=True)
+
+
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
-
-
+    app.run(debug=True)   

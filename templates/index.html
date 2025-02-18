@@ -24,11 +24,16 @@
         <div class="card-body">
             <h4 class="card-title">
                 {% if task.status == 'Completed' %}
-                ✅ <del>{{ task.title }}</del>
+                ✅ <del><a href="{{ url_for('update_task', task_id=task.id) }}" style="text-decoration: none; color: inherit;">
+                    {{ task.title }}
+                </a></del>
                 {% else %}
-                ✏️ {{ task.title }}
+                ✏️ <a href="{{ url_for('update_task', task_id=task.id) }}" style="text-decoration: none; color: inherit;">
+                    {{ task.title }}
+                </a>
                 {% endif %}
             </h4>
+            
 
             <p class="card-text text-muted">{{ task.description }}</p>
             <p><strong>📅 Due Date:</strong> {{ task.due_date or 'N/A' }}</p>
@@ -44,9 +49,12 @@
                 <div>
                     {% if current_user.is_authenticated %}
                         {% if task.status != 'Completed' %}
-                        <a href="{{ url_for('mark_complete', task_id=task.id) }}" class="btn btn-sm" style="background-color: #ff66b2; color: white; border: none;">
-                            ✔ Mark as Done
-                        </a>
+                        <form action="{{ url_for('mark_complete', task_id=task.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-sm" style="background-color: #ff66b2; color: white; border: none;">
+                                ✔ Mark as Done
+                            </button>
+                        </form>
+                        
                         {% endif %}
                         <a href="{{ url_for('update_task', task_id=task.id) }}" class="btn btn-sm" style="background-color: #ff99cc; color: white; border: none;">
                             ✏ Edit

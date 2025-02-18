@@ -1,22 +1,23 @@
-<!-- templates/create_task.html -->
 {% extends 'base.html' %}
 
 {% block body %}
 <div class="container mt-5">
-    <!-- ส่วนหัว -->
     <div class="text-center p-4 rounded" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
         <h2 class="fw-bold text-white p-2 rounded" style="background-color: #ff66b2;">
-            🌟 Create a New Task! 🌟
+            {% if is_update %}
+                ✏ Edit Task
+            {% else %}
+                🌟 Create a New Task! 🌟
+            {% endif %}
         </h2>
         <p class="lead text-dark">
             👋 Let's organize your tasks and keep track of them efficiently!
         </p>
     </div>
 
-    <!-- ฟอร์มการสร้าง Task -->
     <div class="card shadow-lg p-4 mt-4 border-0 rounded-4" style="background-color: #fff0f5;">
         <h4 class="text-dark">Please enter the task details:</h4>
-        <form method="POST">
+        <form method="POST" action="{% if is_update %}{{ url_for('update_task', task_id=form.task_id.data) }}{% else %}{{ url_for('create_task') }}{% endif %}">
             {{ form.hidden_tag() }}
 
             <div class="mb-3">
@@ -35,12 +36,17 @@
             </div>
 
             <div class="mb-3">
-                {{ form.submit(class="btn btn-primary") }}
+                <button type="submit" class="btn btn-primary">
+                    {% if is_update %}
+                        ✅ Update Task
+                    {% else %}
+                        ➕ Create Task
+                    {% endif %}
+                </button>
             </div>
         </form>
     </div>
 
-    <!-- ปุ่มนำทางไปหน้า Dashboard -->
     <div class="text-center mt-4">
         <a href="{{ url_for('index') }}" class="btn btn-lg" style="background-color: #ff66b2; color: white; border: none; padding: 0.75rem 2rem; border-radius: 50px;">
             🚀 Go to Dashboard
