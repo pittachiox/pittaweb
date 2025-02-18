@@ -173,6 +173,18 @@ def update_task(task_id):
     
     return render_template("create_task.html", form=form, is_update=True)
 
+@app.route("/tasks/<int:task_id>/toggle_complete", methods=["POST"])
+@login_required
+def toggle_complete(task_id):
+    task = Task.query.get_or_404(task_id)
+    if task.user_id != current_user.id:
+        abort(403)
+    
+    # สลับสถานะระหว่าง 'Completed' และ 'Pending'
+    task.status = "Pending" if task.status == "Completed" else "Completed"
+    db.session.commit()
+    flash("Task status updated!", "success")
+    return redirect(url_for("index"))
 
 
 
