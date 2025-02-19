@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<!-- ปุ่ม Login ที่มุมบนซ้าย -->
+<a href="{{ url_for('login') }}" class="btn btn-sm text-white" 
+   style="position: fixed; top: 10px; left: 10px; background-color: #ff66b2; border: none; z-index: 1000;">
+    🔑 Login
+</a>
+
 <div class="container mt-4" style="background-color: #ffe6f2; border: 2px solid #ff99cc; border-radius: 10px; padding: 20px;">
     <h2 class="text-center fw-bold text-white p-2 rounded" style="background-color: #ff66b2;">
         📖To-Do-List📖
@@ -33,7 +39,6 @@
                 </a>
                 {% endif %}
             </h4>
-            
 
             <p class="card-text text-muted">{{ task.description }}</p>
             <p><strong>📅 Due Date:</strong> {{ task.due_date or 'N/A' }}</p>
@@ -48,9 +53,11 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     {% if current_user.is_authenticated %}
+                        {% set button_color = '#ff99cc' if task.status == 'Completed' else '#ff66b2' %}
+
                         <form action="{{ url_for('toggle_complete', task_id=task.id) }}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm text-white"
-                            style="background-color: {% if task.status == 'Completed' %}#ff99cc{% else %}#ff66b2{% endif %}; border: none;">
+                            style="background-color: {{ button_color }}; border: none;">
                                 {% if task.status == 'Completed' %}🔄 Mark as Pending{% else %}✔ Mark as Done{% endif %}
                             </button>
                         </form>
@@ -62,7 +69,6 @@
                             🗑 Delete
                         </a>
                     {% endif %}
-
                 </div>
                 <small class="text-muted">Last updated: {{ task.updated_date or 'N/A' }}</small>
             </div>
