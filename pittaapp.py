@@ -16,9 +16,11 @@ models.init_app(app)
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
 @app.route("/")
+@login_required  # ป้องกันไม่ให้เข้าถึงได้หากยังไม่ได้ล็อกอิน
 def index():
-    tasks = Task.query.order_by(Task.due_date).all()
+    tasks = Task.query.filter_by(user_id=current_user.id).order_by(Task.due_date).all()
     return render_template("index.html", tasks=tasks)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
