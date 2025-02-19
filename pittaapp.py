@@ -105,10 +105,12 @@ def create_task():
 def delete_task(task_id):
     task = Task.query.get_or_404(task_id)
     if task.user_id != current_user.id:
-        abort(403)
+        abort(403)  # ถ้าไม่ใช่เจ้าของ task
     db.session.delete(task)
     db.session.commit()
+    flash("Task deleted successfully!", "success")  # แจ้งเตือนเมื่อมีการลบ
     return redirect(url_for("index"))
+
 
 @app.route("/upload", methods=["GET", "POST"])
 @login_required
@@ -133,7 +135,7 @@ def upload():
 @login_required
 def images():
     user = User.query.get(current_user.id)  # โหลดข้อมูลใหม่จากฐานข้อมูล
-    return render_template("images.html", user=user)
+    return render_template("profile.html", user=user)
 
 
 
