@@ -13,12 +13,33 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark text-center">
-        <div class="mx-auto order-0">
-            <a class="navbar-brand mx-auto" href="{{ url_for('index') }}">{{ self.title() }}</a>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <!-- Hamburger Menu -->
+            <div class="dropdown">
+                <button class="btn btn-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    ☰
+                </button>
+                <ul class="dropdown-menu">
+                    {% if current_user.is_authenticated %}
+                        <li><a class="dropdown-item" href="{{ url_for('detail') }}">👤 Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">🚪 Logout</a></li>
+                    {% else %}
+                        <li><a class="dropdown-item" href="{{ url_for('login') }}">🔑 Login</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('register') }}">📝 Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+    
+            <!-- ชื่อเว็บตรงกลาง -->
+            <div class="mx-auto">
+                <a class="navbar-brand" href="{{ url_for('index') }}">{{ self.title() }}</a>
+            </div>
         </div>
     </nav>
-    <div class="container">
+    
+    <div class="container mt-4">
+
         {% block body %}
         Default template
         {% endblock %}
