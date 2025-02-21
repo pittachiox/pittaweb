@@ -175,7 +175,8 @@ def update_task(task_id):
         flash("Task updated successfully!", "success")
         return redirect(url_for("index"))
     
-    return render_template("create_task.html", form=form, is_update=True)
+    return render_template("update_task.html", form=form, task=task)
+
 
 @app.route("/tasks/<int:task_id>/toggle_complete", methods=["POST"])
 @login_required
