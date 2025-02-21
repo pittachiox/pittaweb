@@ -118,16 +118,20 @@ def upload():
     form = forms.UploadForm()
     if form.validate_on_submit():
         file = form.file.data
+        if file.filename == '':
+            flash("No selected file", "danger")
+            return redirect(request.url)
+
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
-        
-        file.seek(0)  # รีเซ็ต pointer ของไฟล์ก่อนอ่านข้อมูล
+
+        file.seek(0)  # ✅ รีเซ็ต pointer ก่อนอ่านข้อมูล
         uploaded_file = Upload(filename=filename, data=file.read())
         db.session.add(uploaded_file)
         db.session.commit()
-        
-        flash("File uploaded successfully!", "success")  # แจ้งเตือนเมื่ออัปโหลดสำเร็จ
+
+        flash("File uploaded successfully!", "success")
         return redirect(url_for("images"))
     return render_template("upload.html", form=form)
 
@@ -166,15 +170,16 @@ def update_task(task_id):
     if task.user_id != current_user.id:
         abort(403)  # ป้องกันผู้ใช้ที่ไม่ใช่เจ้าของ task
 
-    form = TaskForm(obj=task)  # โหลดข้อมูล task ลงใน form
+    form = TaskForm(obj=task)
     if form.validate_on_submit():
         task.title = form.title.data
         task.description = form.description.data
-        task.due_date = form.due_date.data
+        task.due_date = form.due_date.data  # ✅ บันทึกค่าใหม่
         db.session.commit()
         flash("Task updated successfully!", "success")
         return redirect(url_for("index"))
-    
+
+    print(form.errors)  # ✅ Debug form errors
     return render_template("update_task.html", form=form, task=task)
 
 
