@@ -28,8 +28,13 @@
             <label for="due_date">Due Date:</label>
             {{ form.due_date(class="form-control", type="datetime-local") }}  <!-- ✅ เปลี่ยน type -->
         
-            <button type="submit" class="btn btn-primary">Update Task</button>
+            <!-- 🔥 ปุ่ม Save Changes น่ารักๆ -->
+            <button type="submit" class="btn btn-lg text-white" style="background-color: #ff66b2; border: none; padding: 0.75rem 2rem; border-radius: 50px; box-shadow: 0 4px 10px rgba(255, 102, 178, 0.5); transition: transform 0.2s ease-in-out;"
+                onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                💾 Save Changes
+            </button>
         </form>
+        
         
     </div>
 
