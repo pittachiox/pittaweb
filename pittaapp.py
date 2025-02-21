@@ -53,8 +53,8 @@ def register():
             user.password_hash = form.password.data
             db.session.add(user)
             db.session.commit()
-            login_user(user)
-            return redirect(url_for("index"))
+            flash("Registration successful! Please log in.", "success")  # แจ้งเตือนให้ไปล็อกอิน
+            return redirect(url_for("login"))  # เปลี่ยนให้กลับไปที่หน้า login แทน
     return render_template("register.html", form=form)
 
 @app.route("/introduce")
