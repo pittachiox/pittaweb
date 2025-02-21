@@ -94,3 +94,17 @@ class Task(db.Model):
 
     # ✅ เชื่อมโยง Task กับ User
     user: Mapped["User"] = relationship("User", back_populates="tasks")
+
+
+class UserProfile(db.Model):
+    __tablename__ = "user_profiles"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True, nullable=False)
+    nickname = db.Column(db.String, nullable=True)
+    faculty = db.Column(db.String, nullable=True)
+    student_id = db.Column(db.String, nullable=True)
+    
+    user = relationship("User", back_populates="profile")
+
+# เชื่อม `UserProfile` กับ `User`
+User.profile = relationship("UserProfile", uselist=False, back_populates="user")
