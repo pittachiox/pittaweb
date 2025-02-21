@@ -34,7 +34,7 @@ class RegisterForm(BaseUserForm):
 class TaskForm(FlaskForm):
     title = fields.StringField("Task Title", validators=[validators.DataRequired()])
     description = fields.TextAreaField("Task Description")
-    due_date = fields.DateTimeField("Due Date", format='%Y-%m-%d %H:%M:%S')  # ✅ เปลี่ยนเป็น DateTimeField
+    due_date = fields.DateTimeField("Due Date", format='%Y-%m-%dT%H:%M')
     submit = fields.SubmitField("Save")
 
 
