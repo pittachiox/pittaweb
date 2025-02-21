@@ -4,7 +4,7 @@ import models
 import forms
 from flask_login import login_required, login_user, logout_user, LoginManager, current_user
 from flask import render_template, redirect, url_for, Response, flash, request, abort
-from models import db, User, Upload, Task, Role
+from models import db, User, Upload, Task, Role, UserProfile
 from werkzeug.utils import secure_filename
 from forms import TaskForm
 
@@ -67,20 +67,26 @@ def introduce():
 def detail():
     return render_template('detail.html', user=current_user)
 
-@app.route('/update_profile', methods=['POST'])
+@app.route("/update_profile", methods=["POST"])
 @login_required
 def update_profile():
-    current_user.name = request.form.get('name')
-    current_user.nickname = request.form.get('nickname')
-    current_user.faculty = request.form.get('faculty')
-    current_user.student_id = request.form.get('student_id')
+    nickname = request.form.get("nickname")
+    faculty = request.form.get("faculty")
+    student_id = request.form.get("student_id")
+
+    # ตรวจสอบว่ามีโปรไฟล์อยู่แล้วหรือไม่ ถ้าไม่มีให้สร้างใหม่
+    if not current_user.profile:
+        current_user.profile = UserProfile(user_id=current_user.id)
+
+    # อัปเดตข้อมูลในโปรไฟล์
+    current_user.profile.nickname = nickname
+    current_user.profile.faculty = faculty
+    current_user.profile.student_id = student_id
+
     db.session.commit()
+    flash("Profile updated successfully!", "success")
+    return redirect(url_for("images"))
 
-    # โหลดข้อมูลใหม่จากฐานข้อมูล
-    db.session.refresh(current_user)
-
-    flash('Profile updated successfully!', 'success')
-    return redirect(url_for('images'))
 
 
 @app.route("/tasks/create", methods=["GET", "POST"])
@@ -138,8 +144,8 @@ def upload():
 @app.route("/images")
 @login_required
 def images():
-    user = User.query.get(current_user.id)  # โหลดข้อมูลใหม่จากฐานข้อมูล
-    return render_template("profile.html", user=user)
+    user = User.query.get(current_user.id)
+    return render_template("profile.html", user=user, profile=user.profile)
 
 
 
