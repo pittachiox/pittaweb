@@ -22,7 +22,6 @@
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
                 {{ form.title(class="form-control", id="title") }}
-
             </div>
 
             <div class="mb-3">
@@ -35,8 +34,8 @@
                 {{ form.due_date(class="form-control", id="due_date", type="date", value=task.due_date) }}
             </div>
 
-            <div class="mb-3">
-                {{ form.submit(class="btn btn-primary") }}
+            <div class="mb-3 text-center">
+                {{ form.submit(class="btn btn-lg", style="background-color: #ff66b2; color: white; border: none; padding: 0.75rem 2rem; border-radius: 50px; font-weight: bold;", value="💾 Save") }}
             </div>
         </form>
     </div>
