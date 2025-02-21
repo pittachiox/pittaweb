@@ -5,28 +5,18 @@
 
     <form method="POST" action="{{ url_for('update_profile') }}">
         <div class="mb-3">
-            <label class="form-label"><strong>📛 Username</strong></label>
-            <input type="text" class="form-control" value="{{ current_user.username }}" readonly style="background-color: #fff0f5;">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">🌸 Name</label>
-            <input type="text" name="name" class="form-control" value="{{ current_user.name or '' }}" style="background-color: #fff0f5;">
-        </div>
-
-        <div class="mb-3">
             <label class="form-label">🐰 Nickname</label>
-            <input type="text" name="nickname" class="form-control" value="{{ current_user.nickname or '' }}" style="background-color: #fff0f5;">
+            <input type="text" name="nickname" class="form-control" value="{{ current_user.profile.nickname or '' }}" style="background-color: #fff0f5;">
         </div>
 
         <div class="mb-3">
             <label class="form-label">🎓 Faculty</label>
-            <input type="text" name="faculty" class="form-control" value="{{ current_user.faculty or '' }}" style="background-color: #fff0f5;">
+            <input type="text" name="faculty" class="form-control" value="{{ current_user.profile.faculty or '' }}" style="background-color: #fff0f5;">
         </div>
 
         <div class="mb-3">
             <label class="form-label">📖 Student ID</label>
-            <input type="text" name="student_id" class="form-control" value="{{ current_user.student_id or '' }}" style="background-color: #fff0f5;">
+            <input type="text" name="student_id" class="form-control" value="{{ current_user.profile.student_id or '' }}" style="background-color: #fff0f5;">
         </div>
 
         <div class="text-center">
@@ -38,4 +28,4 @@
         <a class="btn btn-secondary btn-lg" href="{{ url_for('index') }}" style="background-color: #ff99cc; border: none;">🔙 Back 🏡</a>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}
