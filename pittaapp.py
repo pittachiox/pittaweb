@@ -46,15 +46,31 @@ def register():
         if User.query.filter_by(username=form.username.data).first():
             flash("Username already exists", "danger")
         else:
-            user = User()
-            form.populate_obj(user)
-            role = Role.query.filter_by(name="user").first() or Role(name="user")
-            user.roles.append(role)
-            user.password_hash = form.password.data
-            db.session.add(user)
-            db.session.commit()
-            flash("Registration successful! Please log in.", "success")  # แจ้งเตือนให้ไปล็อกอิน
-            return redirect(url_for("login"))  # เปลี่ยนให้กลับไปที่หน้า login แทน
+            try:
+                user = User(username=form.username.data, name=form.name.data)
+                user.password_hash = form.password.data  # ✅ ใช้ setter ของ password
+
+                db.session.add(user)
+                db.session.commit()  # ✅ บันทึก user ก่อน เพื่อให้มี ID
+
+                # ✅ เพิ่ม role หลังจากบันทึก user แล้ว
+                role = Role.query.filter_by(name="user").first()
+                if not role:
+                    role = Role(name="user")
+                    db.session.add(role)
+                    db.session.commit()  # ✅ บันทึก role ก่อน
+
+                user.roles.append(role)  # ✅ ตอนนี้ user มี ID แล้ว
+                db.session.commit()  # ✅ บันทึกอีกครั้ง
+
+                flash("Registration successful! Please log in.", "success")
+                return redirect(url_for("login"))
+
+            except Exception as e:
+                db.session.rollback()  # ✅ ป้องกันข้อมูลเสียหายถ้าเกิด error
+                print(f"Error: {e}")
+                flash("An error occurred during registration.", "danger")
+
     return render_template("register.html", form=form)
 
 @app.route("/introduce")
