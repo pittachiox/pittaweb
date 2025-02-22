@@ -7,9 +7,7 @@
         <h2 class="fw-bold text-white p-3 rounded" style="background-color: #ff66b2;">
             📅 Select Your Date
         </h2>
-        <p class="lead text-dark">
-            Tap on a day to pick your due date!
-        </p>
+        
     </div>
 
     <!-- การ์ดปฏิทิน -->
@@ -17,9 +15,9 @@
         <div id="calendar-container">
             <!-- เปลี่ยนเดือน -->
             <div class="text-center mb-3">
-                <button id="prev-month" class="btn btn-light">⬅ Prev</button>
+                <button id="prev-month" class="btn btn-light">⬅</button>
                 <span id="calendar-month-year" class="fw-bold fs-5"></span>
-                <button id="next-month" class="btn btn-light">Next ➡</button>
+                <button id="next-month" class="btn btn-light">➡</button>
             </div>
 
             <!-- ตารางปฏิทิน -->
@@ -116,14 +114,26 @@
 </script>
 
 <style>
+    /* ปรับสีแถบวัน */
+    th {
+        background-color: #ff66b2;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    /* ปรับสีเมื่อ hover บนวัน */
     .day:hover {
         background-color: #ffccdd;
         transform: scale(1.1);
     }
+
+    /* ปรับสีของวันที่เลือก */
     .selected {
         background-color: #ff66b2 !important;
         color: white;
         font-weight: bold;
     }
 </style>
+
 {% endblock %}
