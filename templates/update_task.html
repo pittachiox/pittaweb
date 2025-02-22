@@ -26,13 +26,20 @@
             {{ form.description(class="form-control") }}
         
             <label for="due_date">Due Date:</label>
-            {{ form.due_date(class="form-control", type="datetime-local") }}  <!-- ✅ เปลี่ยน type -->
-        
-            <!-- 🔥 ปุ่ม Save Changes น่ารักๆ -->
-            <button type="submit" class="btn btn-lg text-white" style="background-color: #ff66b2; border: none; padding: 0.75rem 2rem; border-radius: 50px; box-shadow: 0 4px 10px rgba(255, 102, 178, 0.5); transition: transform 0.2s ease-in-out;"
-                onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                💾 Save Changes
-            </button>
+            <div class="input-group">
+                <span class="input-group-text" style="background-color: #ff99cc; border: none; color: white;">📅</span>
+                {{ form.due_date(class="form-control", type="datetime-local", style="background-color: #fff0f5; border: 2px solid #ff99cc; border-radius: 10px; padding: 8px; box-shadow: 0 2px 5px rgba(255, 102, 178, 0.3);") }}
+            </div>
+
+            <div class="text-center mt-3">  <!-- เพิ่ม mt-3 เพื่อให้มีระยะห่างด้านบน -->
+                <button type="submit" class="btn text-white" style="background-color: #ff66b2; border: none; padding: 0.5rem 1.5rem; border-radius: 30px; box-shadow: 0 3px 8px rgba(255, 102, 178, 0.4); transition: transform 0.2s ease-in-out; display: block; margin: 0 auto; margin-top: 15px;"
+                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    💾 Save Changes
+                </button>
+            </div>
+            
+            
+
         </form>
         
         
