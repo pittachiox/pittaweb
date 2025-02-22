@@ -28,6 +28,13 @@
             <a class="btn btn-lg" href="{{ url_for('create_task') }}" style="background-color: #ff66b2; color: white; border: none;">
                 ➕ Add New Task
             </a>
+        </li>
+        <!-- เพิ่มปุ่มไปยัง Calendar -->
+        <li class="nav-item">
+            <a class="btn btn-lg" href="{{ url_for('calendar') }}" style="background-color: #ff99cc; color: white; border: none;">
+                📅 Go to Calendar
+            </a>
+        </li>
     </ul>
     
     {% for task in tasks %}

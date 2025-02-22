@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <!-- ส่วนหัว -->
+    <div class="text-center p-4 rounded mb-4" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
+        <h2 class="fw-bold text-white p-3 rounded" style="background-color: #ff66b2;">
+            📅 Select Your Date
+        </h2>
+        <p class="lead text-dark">
+            Tap on a day to pick your due date!
+        </p>
+    </div>
+
+    <!-- การ์ดปฏิทิน -->
+    <div class="card shadow-lg p-4 border-0 rounded-4" style="background-color: #fff0f5;">
+        <div id="calendar-container">
+            <!-- เปลี่ยนเดือน -->
+            <div class="text-center mb-3">
+                <button id="prev-month" class="btn btn-light">⬅ Prev</button>
+                <span id="calendar-month-year" class="fw-bold fs-5"></span>
+                <button id="next-month" class="btn btn-light">Next ➡</button>
+            </div>
+
+            <!-- ตารางปฏิทิน -->
+            <table class="table table-bordered text-center" id="calendar">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ปุ่มกลับ -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-lg" style="background-color: #ff66b2; color: white; border: none; padding: 0.75rem 2rem; border-radius: 50px;">
+            🚀 Go to Dashboard
+        </a>
+    </div>
+</div>
+
+<script>
+    let selectedDate = null;
+    const today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+
+    function generateCalendar(month, year) {
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const calendarBody = document.querySelector("#calendar tbody");
+        const monthYearLabel = document.getElementById("calendar-month-year");
+
+        calendarBody.innerHTML = "";
+        monthYearLabel.textContent = `${new Date(year, month).toLocaleString('en-us', { month: 'long' })} ${year}`;
+
+        let date = 1;
+        for (let i = 0; i < 6; i++) {
+            let row = document.createElement("tr");
+
+            for (let j = 0; j < 7; j++) {
+                let cell = document.createElement("td");
+                cell.style.cursor = "pointer";
+                cell.style.padding = "15px";
+                cell.style.borderRadius = "10px";
+                cell.style.transition = "all 0.2s ease-in-out";
+                cell.style.backgroundColor = "#fff";
+
+                if (i === 0 && j < firstDay) {
+                    cell.innerHTML = "";
+                } else if (date > daysInMonth) {
+                    break;
+                } else {
+                    cell.innerHTML = date;
+                    cell.classList.add("day");
+                    cell.onclick = function() {
+                        document.querySelectorAll(".selected").forEach(el => el.classList.remove("selected"));
+                        cell.classList.add("selected");
+                        cell.style.backgroundColor = "#ff66b2";
+                        cell.style.color = "white";
+                        selectedDate = new Date(year, month, date);
+                        console.log("Selected Date:", selectedDate.toISOString().split('T')[0]);
+                    };
+                    date++;
+                }
+                row.appendChild(cell);
+            }
+            calendarBody.appendChild(row);
+        }
+    }
+
+    document.getElementById("prev-month").addEventListener("click", function() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    document.getElementById("next-month").addEventListener("click", function() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        generateCalendar(currentMonth, currentYear);
+    });
+</script>
+
+<style>
+    .day:hover {
+        background-color: #ffccdd;
+        transform: scale(1.1);
+    }
+    .selected {
+        background-color: #ff66b2 !important;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

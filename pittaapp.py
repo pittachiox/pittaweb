@@ -160,6 +160,10 @@ def get_uploaded_image(file_id):
     file_ = Upload.query.get_or_404(file_id)
     return Response(file_.data, headers={"Content-Disposition": f'inline;filename="{file_.filename}"', "Content-Type": "application/octet-stream"})
 
+@app.route("/calendar")
+@login_required
+def calendar():
+    return render_template("calendar.html")
 
 
 @app.route("/tasks/<int:task_id>/complete", methods=["POST"])
