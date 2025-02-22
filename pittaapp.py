@@ -67,12 +67,17 @@ def introduce():
 def detail():
     return render_template('detail.html', user=current_user)
 
-@app.route("/update_profile", methods=["POST"])
+@app.route('/update_profile', methods=['POST'])
 @login_required
 def update_profile():
-    nickname = request.form.get("nickname")
-    faculty = request.form.get("faculty")
-    student_id = request.form.get("student_id")
+    current_user.profile.nickname = request.form.get('nickname')
+    current_user.profile.faculty = request.form.get('faculty')
+    current_user.profile.student_id = request.form.get('student_id')
+    current_user.profile.emoji = request.form.get('profile_emoji')  # รับค่าอิโมจิที่เลือก
+    db.session.commit()
+
+    flash('Profile updated successfully!', 'success')
+    return redirect(url_for('images'))
 
     # ตรวจสอบว่ามีโปรไฟล์อยู่แล้วหรือไม่ ถ้าไม่มีให้สร้างใหม่
     if not current_user.profile:

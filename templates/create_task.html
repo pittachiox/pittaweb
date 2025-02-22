@@ -31,9 +31,15 @@
             </div>
 
             <div class="mb-3">
-                <label for="due_date" class="form-label">Due Date and Time:</label>
-                {{ form.due_date(class="form-control", id="due_date", type="datetime-local") }}
+                <label for="due_date" class="form-label">📅 Due Date and Time:</label>
+                <div class="input-group">
+                    <span class="input-group-text" style="background-color: #ff99cc; color: white; border: none; font-size: 1.2rem;">
+                        🗓️
+                    </span>
+                    {{ form.due_date(class="form-control", id="due_date", type="datetime-local", style="background-color: #fff0f5; border: 2px solid #ff99cc; border-radius: 10px;") }}
+                </div>
             </div>
+            
             
 
             <div class="mb-3">

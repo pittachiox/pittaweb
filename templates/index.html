@@ -28,12 +28,6 @@
             <a class="btn btn-lg" href="{{ url_for('create_task') }}" style="background-color: #ff66b2; color: white; border: none;">
                 ➕ Add New Task
             </a>
-        </li>
-        <li class="nav-item mx-2">
-            <a class="btn btn-lg" href="{{ url_for('detail') }}" style="background-color: #ff99cc; color: white; border: none;">
-                🏠 Home
-            </a>
-        </li>
     </ul>
     
     {% for task in tasks %}

@@ -108,3 +108,4 @@ class UserProfile(db.Model):
 
 # เชื่อม `UserProfile` กับ `User`
 User.profile = relationship("UserProfile", uselist=False, back_populates="user")
+

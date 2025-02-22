@@ -4,49 +4,48 @@
 {% block body %}
 <div class="container mt-5">
     <!-- ส่วนหัว -->
-    <div class="text-center p-4 rounded" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
-        <h2 class="fw-bold text-white p-2 rounded" style="background-color: #ff66b2;">
+    <div class="text-center p-4 rounded mb-4" style="background-color: #ffe6f2; border: 2px solid #ff99cc;">
+        <h2 class="fw-bold text-white p-3 rounded" style="background-color: #ff66b2;">
             ✏ Edit Your Task
         </h2>
-        <p class="lead text-dark">
-            ✨ Modify your task details and keep things updated!
-        </p>
+        
     </div>
 
     <!-- ฟอร์มการแก้ไข Task -->
-    <div class="card shadow-lg p-4 mt-4 border-0 rounded-4" style="background-color: #fff0f5;">
-        <h4 class="text-dark">Update the task details:</h4>
+    <div class="card shadow-lg p-5 border-0 rounded-4" style="background-color: #fff0f5;">
+        <h4 class="text-dark mb-4 text-center">Update the task details:</h4>
         <form method="POST" action="{{ url_for('update_task', task_id=task.id) }}">
             {{ form.hidden_tag() }}  <!-- ✅ CSRF Protection -->
-            
-            <label for="title">Title:</label>
-            {{ form.title(class="form-control") }}
-            
-            <label for="description">Description:</label>
-            {{ form.description(class="form-control") }}
-        
-            <label for="due_date">Due Date:</label>
-            <div class="input-group">
-                <span class="input-group-text" style="background-color: #ff99cc; border: none; color: white;">📅</span>
-                {{ form.due_date(class="form-control", type="datetime-local", style="background-color: #fff0f5; border: 2px solid #ff99cc; border-radius: 10px; padding: 8px; box-shadow: 0 2px 5px rgba(255, 102, 178, 0.3);") }}
+
+            <div class="mb-4">
+                <label for="title" class="form-label fw-bold">📌 Title:</label>
+                {{ form.title(class="form-control p-3", style="border-radius: 10px; background-color: #fff;") }}
             </div>
 
-            <div class="text-center mt-3">  <!-- เพิ่ม mt-3 เพื่อให้มีระยะห่างด้านบน -->
-                <button type="submit" class="btn text-white" style="background-color: #ff66b2; border: none; padding: 0.5rem 1.5rem; border-radius: 30px; box-shadow: 0 3px 8px rgba(255, 102, 178, 0.4); transition: transform 0.2s ease-in-out; display: block; margin: 0 auto; margin-top: 15px;"
+            <div class="mb-4">
+                <label for="description" class="form-label fw-bold">📝 Description:</label>
+                {{ form.description(class="form-control p-3", style="border-radius: 10px; background-color: #fff; height: 120px;") }}
+            </div>
+
+            <div class="mb-4">
+                <label for="due_date" class="form-label fw-bold">📅 Due Date and Time:</label>
+                <div class="input-group">
+                    <span class="input-group-text" style="background-color: #ff99cc; border: none; color: white; font-size: 1.2rem;">📅</span>
+                    {{ form.due_date(class="form-control p-3", type="datetime-local", style="border-radius: 10px; background-color: #fff;") }}
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn text-white px-4 py-2" style="background-color: #ff66b2; border: none; border-radius: 30px; box-shadow: 0 3px 8px rgba(255, 102, 178, 0.4); transition: transform 0.2s ease-in-out;"
                     onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                     💾 Save Changes
                 </button>
             </div>
-            
-            
-
         </form>
-        
-        
     </div>
 
     <!-- ปุ่มกลับไปที่ Dashboard -->
-    <div class="text-center mt-4">
+    <div class="text-center mt-5">
         <a href="{{ url_for('index') }}" class="btn btn-lg" style="background-color: #ff66b2; color: white; border: none; padding: 0.75rem 2rem; border-radius: 50px;">
             🚀 Go to Dashboard
         </a>
